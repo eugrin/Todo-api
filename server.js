@@ -13,8 +13,8 @@ app.get('/', function (req, res){
   res.send('Todo API Root');
 });
 
-//GET /todos/id
-
+//GET /todos
+//GET /todos/?q=blah&completed=true
 app.get('/todos', function (req, res) {
   var queryParams = req.query;
   var filteredTodos = todos;
@@ -34,6 +34,7 @@ app.get('/todos', function (req, res) {
   res.json(filteredTodos);
 })
 
+//GET a specific item by ID
 app.get('/todos/:id', function (req, res) {
   var todoId = parseInt(req.params.id, 10);
   var matchedTodo = _.findWhere(todos, {id: todoId});
@@ -46,6 +47,7 @@ app.get('/todos/:id', function (req, res) {
   }
 });
 
+// POST new todo
 app.post('/todos', function(req, res){
    var body = _.pick(req.body, 'description', 'completed');
 
@@ -59,6 +61,7 @@ app.post('/todos', function(req, res){
    res.json(body);
 });
 
+//DELETE a specific todo by ID
 app.delete('/todos/:id', function(req, res){
   var todoId = parseInt(req.params.id, 10);
   var matchedTodo = _.findWhere(todos, {id: todoId});
@@ -72,6 +75,7 @@ app.delete('/todos/:id', function(req, res){
   }
 });
 
+// Update a specific todo by ID
 app.put('/todos/:id', function(req, res) {
   var todoId = parseInt(req.params.id, 10);
   var matchedTodo = _.findWhere(todos, {id: todoId});
