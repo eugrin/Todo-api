@@ -40,7 +40,6 @@ sequelize.sync({
   //     description: 'Clean office'
   //   });
   // }).then(function(){
-  //   //return Todo.findById(1);
   //   return Todo.findAll({
   //     where: {
   //       description: {
