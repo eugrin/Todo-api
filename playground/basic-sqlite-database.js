@@ -19,44 +19,41 @@ var Todo = sequelize.define('todo', {
   }
 });
 
+var User = sequelize.define('user', {
+  email: Sequelize.STRING
+});
+
+Todo.belongsTo(User);
+User.hasMany(Todo);
+
 sequelize.sync({
   //force: true
 }).then(function() {
   console.log('Everything is synced');
 
-  Todo.findById(3).then(function(todo){
-    if(todo) {
-      console.log(todo.toJSON());
-    }
-    else {
-      console.log('ID not found');
-    }
-  });
-  // Todo.create({
-  //   description: 'Take out trash',
-  //   completed: false
-  // }).then(function(todo){
-  //   return Todo.create({
-  //     description: 'Clean office'
-  //   });
+  // User.create({
+  //   email: 'example@test.com'
   // }).then(function(){
-  //   return Todo.findAll({
-  //     where: {
-  //       description: {
-  //         $like: '%trash%'
-  //       }
-  //     }
+  //   return Todo.create({
+  //     description: 'clean yard'
   //   });
-  // }).then(function(todos){
-  //   if(todos){
-  //     todos.forEach(function(todo) {
-  //       console.log(todo.toJSON());
-  //     });
-  //   }
-  //   else {
-  //     console.log('No todo found');
-  //   }
-  // }).catch(function(e) {
-  //   console.log(e);
+  // }).then(function(todo) {
+  //   return User.findById(1).then(function (user) {
+  //     user.addTodo(todo);
+  //   });
   // });
+
+  User.findById(1).then(function (user) {
+    user.getTodos({
+      where: {
+        completed: true
+      }
+    }).then(function(todos){
+      todos.forEach(function(todo) {
+        console.log(todo.toJSON());
+      });
+    });
+  });
+
+
 });
